@@ -45,7 +45,7 @@ public class AdminGUI implements InventoryHolder {
         int emailSlot = plugin.getConfigManager().getConfig().getInt("settings.email-slot", 12);
         int discordSlot = plugin.getConfigManager().getConfig().getInt("settings.discord-slot", 16);
 
-        // Admin email item (používá sekci gui.admin-email)
+        // Admin email item
         if (data.hasEmail()) {
             inventory.setItem(emailSlot, createItem("gui.admin-email.linked",
                     "{email}", data.getEmail(),
@@ -54,13 +54,13 @@ public class AdminGUI implements InventoryHolder {
             inventory.setItem(emailSlot, createItem("gui.admin-email.unlinked"));
         }
 
-        // Admin discord item
+        // Admin discord item (používá sekci gui.admin-discord)
         if (data.hasDiscord()) {
-            inventory.setItem(discordSlot, createItem("gui.discord.linked",
+            inventory.setItem(discordSlot, createItem("gui.admin-discord.linked",
                     "{account}", data.getDiscordAccount(),
                     "{date}", data.getDiscordDate()));
         } else {
-            inventory.setItem(discordSlot, createItem("gui.discord.unlinked"));
+            inventory.setItem(discordSlot, createItem("gui.admin-discord.unlinked"));
         }
     }
 
