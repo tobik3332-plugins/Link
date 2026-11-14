@@ -21,6 +21,11 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
 
+    - name: Download and Install DiscordSRV Dependency
+      run: |
+        curl -L -o DiscordSRV.jar https://github.com/Scarsz/DiscordSRV/releases/download/v1.27.0/DiscordSRV-Build-1.27.0.jar
+        mvn install:install-file -Dfile=DiscordSRV.jar -DgroupId=com.github.discordscrv -DartifactId=DiscordSRV -Dversion=1.27.0 -Dpackaging=jar
+
     - name: Calculate Dynamic Version
       run: |
         BUILD_NUM=${{ github.run_number }}
@@ -38,7 +43,6 @@ jobs:
         echo "Calculated version: $VERSION for build $BUILD_NUM"
         echo "PLUGIN_VERSION=$VERSION" >> $GITHUB_ENV
         
-        # Nastavení verze v pom.xml
         mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
 
     - name: Build with Maven
