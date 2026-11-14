@@ -75,33 +75,44 @@ public class GUIListener implements Listener {
             PlayerData data = plugin.getDatabaseManager().getPlayerData(target.getUniqueId());
 
             if (slot == emailSlot) {
-                if (!data.hasEmail() && event.getClick() == ClickType.SHIFT_LEFT) {
-                    player.closeInventory();
-                    plugin.getChatInputListener().addPendingAdminInput(player.getUniqueId(), target.getUniqueId());
-                    player.sendMessage(plugin.getConfigManager().getMessage("admin-email-prompt", "{player}", target.getName() != null ? target.getName() : "hráč"));
-                } else if (data.hasEmail() && (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.SHIFT_LEFT)) {
-                    copyToClipboard(player, data.getEmail(), plugin.getConfigManager().getMessage("email-copied", "{email}", data.getEmail()));
-                } else if (data.hasEmail() && event.getClick() == ClickType.SHIFT_RIGHT) {
-                    plugin.getDatabaseManager().removeEmail(target.getUniqueId());
-                    player.sendMessage(plugin.getConfigManager().getMessage("unlink-success", "{platform}", "Email"));
-                    if (target.isOnline() && target.getPlayer() != null) {
-                        target.getPlayer().sendMessage(plugin.getConfigManager().getMessage("admin-unlinked-target", "{platform}", "Email"));
+                if (!data.hasEmail()) {
+                    if (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.SHIFT_LEFT) {
+                        player.closeInventory();
+                        plugin.getChatInputListener().addPendingAdminInput(player.getUniqueId(), target.getUniqueId());
+                        player.sendMessage(plugin.getConfigManager().getMessage("admin-email-prompt", "{player}", target.getName() != null ? target.getName() : "hráč"));
                     }
-                    new AdminGUI(plugin, target).open(player);
+                } else {
+                    if (event.getClick() == ClickType.LEFT) {
+                        copyToClipboard(player, data.getEmail(), plugin.getConfigManager().getMessage("email-copied", "{email}", data.getEmail()));
+                    } else if (event.getClick() == ClickType.SHIFT_LEFT) {
+                        player.closeInventory();
+                        plugin.getChatInputListener().addPendingAdminInput(player.getUniqueId(), target.getUniqueId());
+                        player.sendMessage(plugin.getConfigManager().getMessage("admin-email-prompt", "{player}", target.getName() != null ? target.getName() : "hráč"));
+                    } else if (event.getClick() == ClickType.SHIFT_RIGHT) {
+                        plugin.getDatabaseManager().removeEmail(target.getUniqueId());
+                        player.sendMessage(plugin.getConfigManager().getMessage("unlink-success", "{platform}", "Email"));
+                        if (target.isOnline() && target.getPlayer() != null) {
+                            target.getPlayer().sendMessage(plugin.getConfigManager().getMessage("admin-unlinked-target", "{platform}", "Email"));
+                        }
+                        new AdminGUI(plugin, target).open(player);
+                    }
                 }
             } else if (slot == discordSlot) {
-                if (data.hasDiscord() && (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.SHIFT_LEFT)) {
-                    copyToClipboard(player, data.getDiscordAccount(), plugin.getConfigManager().getMessage("discord-copied", "{account}", data.getDiscordAccount()));
-                } else if (data.hasDiscord() && event.getClick() == ClickType.SHIFT_RIGHT) {
-                    plugin.getDatabaseManager().removeDiscord(target.getUniqueId());
-                    if (target.isOnline() && target.getPlayer() != null) {
-                        target.getPlayer().performCommand("discord unlink");
-                        target.getPlayer().sendMessage(plugin.getConfigManager().getMessage("admin-unlinked-target", "{platform}", "Discord"));
-                    } else {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "discord unlink " + target.getName());
+                // Discord lze v admin GUI ovládat (kopírovat / unlinkovat) pouze pokud je propojený
+                if (data.hasDiscord()) {
+                    if (event.getClick() == ClickType.LEFT || event.getClick() == ClickType.SHIFT_LEFT) {
+                        copyToClipboard(player, data.getDiscordAccount(), plugin.getConfigManager().getMessage("discord-copied", "{account}", data.getDiscordAccount()));
+                    } else if (event.getClick() == ClickType.SHIFT_RIGHT) {
+                        plugin.getDatabaseManager().removeDiscord(target.getUniqueId());
+                        if (target.isOnline() && target.getPlayer() != null) {
+                            target.getPlayer().performCommand("discord unlink");
+                            target.getPlayer().sendMessage(plugin.getConfigManager().getMessage("admin-unlinked-target", "{platform}", "Discord"));
+                        } else {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "discord unlink " + target.getName());
+                        }
+                        player.sendMessage(plugin.getConfigManager().getMessage("unlink-success", "{platform}", "Discord"));
+                        new AdminGUI(plugin, target).open(player);
                     }
-                    player.sendMessage(plugin.getConfigManager().getMessage("unlink-success", "{platform}", "Discord"));
-                    new AdminGUI(plugin, target).open(player);
                 }
             }
         }
