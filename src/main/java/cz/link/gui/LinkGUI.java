@@ -6,17 +6,20 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.ProfileProperty;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class LinkGUI implements InventoryHolder {
@@ -61,14 +64,14 @@ public class LinkGUI implements InventoryHolder {
         }
     }
 
-    private ItemStack createItem(String path, String... replacements) {
+    public static ItemStack createCustomItem(LinkPlugin plugin, String path, String... replacements) {
         ConfigurationSection sec = plugin.getConfigManager().getConfig().getConfigurationSection(path);
         if (sec == null) return new ItemStack(Material.BARRIER);
 
         String materialStr = sec.getString("material", "STONE");
         ItemStack item = null;
 
-        // Podpora pro Nexo itemy přes reflexi (podpora ItemBuilder .build())
+        // Podpora pro Nexo itemy
         if (materialStr.toLowerCase().startsWith("nexo-")) {
             String nexoId = materialStr.substring(5);
             try {
@@ -88,8 +91,20 @@ public class LinkGUI implements InventoryHolder {
                         }
                     }
                 }
-            } catch (Exception ignored) {
-                // Nexo není dostupné nebo item nebyl nalezen
+            } catch (Exception ignored) {}
+        }
+        // Podpora pro Base64 hlavy (formát: basehead-<base64kod>)
+        else if (materialStr.toLowerCase().startsWith("basehead-")) {
+            String base64 = materialStr.substring(9);
+            item = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+            if (skullMeta != null) {
+                try {
+                    com.destroystokyo.paper.profile.PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+                    profile.getProperties().add(new ProfileProperty("textures", base64));
+                    skullMeta.setPlayerProfile(profile);
+                    item.setItemMeta(skullMeta);
+                } catch (Exception ignored) {}
             }
         }
 
@@ -123,6 +138,10 @@ public class LinkGUI implements InventoryHolder {
             item.setItemMeta(meta);
         }
         return item;
+    }
+
+    private ItemStack createItem(String path, String... replacements) {
+        return createCustomItem(plugin, path, replacements);
     }
 
     public void open() {
