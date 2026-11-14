@@ -69,19 +69,26 @@ public class AdminGUI implements InventoryHolder {
         String materialStr = sec.getString("material", "STONE");
         ItemStack item = null;
 
-        // Podpora pro Nexo itemy přes reflexi
         if (materialStr.toLowerCase().startsWith("nexo-")) {
             String nexoId = materialStr.substring(5);
             try {
                 Class<?> nexoItemsClass = Class.forName("com.nexomc.nexo.api.NexoItems");
                 Method method = nexoItemsClass.getMethod("itemFromId", String.class);
                 Object result = method.invoke(null, nexoId);
-                if (result instanceof ItemStack) {
-                    item = ((ItemStack) result).clone();
+                if (result != null) {
+                    try {
+                        Method buildMethod = result.getClass().getMethod("build");
+                        Object built = buildMethod.invoke(result);
+                        if (built instanceof ItemStack) {
+                            item = ((ItemStack) built).clone();
+                        }
+                    } catch (NoSuchMethodException e) {
+                        if (result instanceof ItemStack) {
+                            item = ((ItemStack) result).clone();
+                        }
+                    }
                 }
-            } catch (Exception ignored) {
-                // Nexo není dostupné nebo item nebyl nalezen
-            }
+            } catch (Exception ignored) {}
         }
 
         if (item == null) {
@@ -118,6 +125,10 @@ public class AdminGUI implements InventoryHolder {
 
     public UUID getTargetUUID() {
         return target.getUniqueId();
+    }
+
+    public OfflinePlayer getTarget() {
+        return target;
     }
 
     public void open(Player admin) {
