@@ -15,7 +15,7 @@ gui:
         - "&7Status: &cNepropojeno"
         - "&7Email: &fNone"
         - ""
-        - "&eKlikni pro nastavení emailu"
+        - "&eLevé pro nastavení emailu"
     linked:
       material: "MAP"
       name: "&aEmail Linked"
@@ -25,6 +25,27 @@ gui:
         - "&7Datum: &f{date}"
         - ""
         - "&eLevé pro zkopírování emailu"
+        - "&cShift + Pravé pro unlink"
+
+  admin-email:
+    unlinked:
+      material: "PAPER"
+      name: "&eLink Email"
+      lore:
+        - "&7Status: &cNepropojeno"
+        - "&7Email: &fNone"
+        - ""
+        - "&eShift + Levé pro nastavení emailu"
+    linked:
+      material: "MAP"
+      name: "&aEmail Linked"
+      lore:
+        - "&7Status: &aPropojeno"
+        - "&7Email: &f{email}"
+        - "&7Datum: &f{date}"
+        - ""
+        - "&eLevé pro zkopírování emailu"
+        - "&eShift + Levé pro změnu emailu"
         - "&cShift + Pravé pro unlink"
 
   discord:
