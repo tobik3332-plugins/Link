@@ -1,0 +1,61 @@
+settings:
+  gui-size: 27
+  email-slot: 12
+  discord-slot: 16
+
+gui:
+  title: "&8Propojení účtů"
+  admin-title-prefix: "&8Admin: &e"
+  
+  email:
+    unlinked:
+      material: "PAPER"
+      name: "&eLink Email"
+      lore:
+        - "&7Status: &cNepropojeno"
+        - "&7Email: &fNone"
+        - ""
+        - "&eKlikni pro nastavení emailu"
+    linked:
+      material: "MAP"
+      name: "&aEmail Linked"
+      lore:
+        - "&7Status: &aPropojeno"
+        - "&7Email: &f{email}"
+        - "&7Datum: &f{date}"
+        - ""
+        - "&cShift + Pravé pro unlink"
+
+  discord:
+    unlinked:
+      material: "PLAYER_HEAD"
+      name: "&eLink Discord"
+      lore:
+        - "&7Status: &cNepropojeno"
+        - "&7Účet: &fNone"
+        - ""
+        - "&eKlikni pro propojení Discordu"
+    linked:
+      material: "PLAYER_HEAD"
+      name: "&aDiscord Linked"
+      lore:
+        - "&7Status: &aPropojeno"
+        - "&7Účet: &f{account}"
+        - "&7Datum: &f{date}"
+        - ""
+        - "&cShift + Pravé pro unlink"
+
+messages:
+  prefix: "&8[&bLink&8] &7"
+  reload: "Konfigurace byla úspěšně reloadována!"
+  no-permission: "&cNemáš dostatečná oprávnění."
+  email-prompt: "&eNapiš svůj email do chatu. Napiš &ccancel &epro zrušení."
+  email-cancelled: "&cNastavení emailu bylo zrušeno."
+  email-saved: "&aEmail &f{email} &asuccessfully nastaven!"
+  email-invalid: "&cNezadal jsi platný formát emailu. Zkus to znovu nebo napiš cancel."
+  unlink-prompt: "&eNapište příkaz ještě jednou do 5 sekund pro potvrzení odpojení."
+  unlink-success: "&aPlatforma &f{platform} &ablo úspěšně odpojena."
+  unlink-expired: "&cČasový limit pro odpojení vypršel."
+  admin-unlinked-target: "&cVáš účet ({platform}) byl odpojen administrátorem."
+  player-not-found: "&cHráč nebyl nalezen."
+  usage-alink: "&cPoužití: /alink reload nebo /alink check <hráč> nebo /alink set email <hráč> <email>"
