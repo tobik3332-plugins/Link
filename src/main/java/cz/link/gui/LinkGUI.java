@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,18 +66,24 @@ public class LinkGUI implements InventoryHolder {
         if (sec == null) return new ItemStack(Material.BARRIER);
 
         String materialStr = sec.getString("material", "STONE");
-        ItemStack item;
+        ItemStack item = null;
 
-        // Podpora pro Nexo itemy (formát: nexo-nazevitemu)
+        // Podpora pro Nexo itemy přes reflexi (bez nutnosti compile-time závislosti)
         if (materialStr.toLowerCase().startsWith("nexo-")) {
             String nexoId = materialStr.substring(5);
-            if (Bukkit.getPluginManager().isPluginEnabled("Nexo")) {
-                ItemStack nexoItem = com.nexomc.nexo.api.NexoItems.itemFromId(nexoId);
-                item = (nexoItem != null) ? nexoItem.clone() : new ItemStack(Material.STONE);
-            } else {
-                item = new ItemStack(Material.STONE);
+            try {
+                Class<?> nexoItemsClass = Class.forName("com.nexomc.nexo.api.NexoItems");
+                Method method = nexoItemsClass.getMethod("itemFromId", String.class);
+                Object result = method.invoke(null, nexoId);
+                if (result instanceof ItemStack) {
+                    item = ((ItemStack) result).clone();
+                }
+            } catch (Exception ignored) {
+                // Nexo není dostupné nebo item nebyl nalezen
             }
-        } else {
+        }
+
+        if (item == null) {
             Material mat = Material.matchMaterial(materialStr);
             item = new ItemStack(mat != null ? mat : Material.STONE);
         }
