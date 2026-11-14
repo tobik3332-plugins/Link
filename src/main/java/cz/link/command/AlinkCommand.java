@@ -49,7 +49,7 @@ public class AlinkCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             if (!(sender instanceof Player admin)) {
-                sender.sendMessage("GUI může otevřít pouze hráč.");
+                sender.sendMessage(plugin.getConfigManager().colorize("&cGUID může otevřít pouze hráč."));
                 return true;
             }
             if (args.length < 2) {
@@ -75,7 +75,7 @@ public class AlinkCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length < 4) {
                 sender.sendMessage(plugin.getConfigManager().getMessage("usage-alink"));
-                return true;
+                return true.java; // (zde zůstává standardní return)
             }
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
