@@ -1,0 +1,26 @@
+name: Link
+version: '${project.version}'
+main: cz.link.LinkPlugin
+api-version: '1.20'
+depend: [DiscordSRV]
+
+commands:
+  link:
+    description: Otevře propojovací menu
+    permission: link.link
+  alink:
+    description: Administrátorské příkazy pro Link plugin
+    permission: link.alink
+  unlink:
+    description: Odpojení emailu nebo discordu
+    permission: link.unlink
+
+permissions:
+  link.link:
+    default: true
+  link.alink:
+    default: op
+  link.reload:
+    default: op
+  link.unlink:
+    default: true
