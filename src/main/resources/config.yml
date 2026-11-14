@@ -68,6 +68,26 @@ gui:
         - "&eLevé pro zkopírování účtu"
         - "&cShift + Pravé pro unlink"
 
+  admin-discord:
+    unlinked:
+      material: "PLAYER_HEAD"
+      name: "&eLink Discord"
+      lore:
+        - "&7Status: &cNepropojeno"
+        - "&7Účet: &fNone"
+        - ""
+        - "&cÚčet není propojen"
+    linked:
+      material: "PLAYER_HEAD"
+      name: "&aDiscord Linked"
+      lore:
+        - "&7Status: &aPropojeno"
+        - "&7Účet: &f{account}"
+        - "&7Datum: &f{date}"
+        - ""
+        - "&eLevé pro zkopírování účtu"
+        - "&cShift + Pravé pro unlink"
+
 messages:
   prefix: "&8[&cLink&8] &7"
   reload: "Konfigurace byla úspěšně reloadována!"
