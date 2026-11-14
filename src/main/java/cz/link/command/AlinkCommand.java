@@ -75,7 +75,7 @@ public class AlinkCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length < 4) {
                 sender.sendMessage(plugin.getConfigManager().getMessage("usage-alink"));
-                return true.java; // (zde zůstává standardní return)
+                return true;
             }
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
