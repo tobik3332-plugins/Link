@@ -2,6 +2,7 @@ package cz.link.manager;
 
 import cz.link.LinkPlugin;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -27,6 +28,14 @@ public class ConfigManager {
 
     public Component colorize(String text) {
         if (text == null) return Component.empty();
+        // Podpora pro MiniMessages a HEX pokud řetězec obsahuje značky <...>
+        if (text.contains("<") && text.contains(">")) {
+            try {
+                return MiniMessage.miniMessage().deserialize(text);
+            } catch (Exception ignored) {
+                // Fallback na legacy
+            }
+        }
         return LegacyComponentSerializer.legacyAmpersand().deserialize(text);
     }
 
