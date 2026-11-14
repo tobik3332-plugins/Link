@@ -22,11 +22,6 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-        <!-- JitPack Repository pro DiscordSRV -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -37,12 +32,13 @@
             <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- DiscordSRV API přes JitPack -->
+        <!-- Lokální DiscordSRV závislost ze složky libs -->
         <dependency>
-            <groupId>com.github.DiscordSRV</groupId>
+            <groupId>com.github.discordscrv</groupId>
             <artifactId>DiscordSRV</artifactId>
-            <version>v1.27.0</version>
-            <scope>provided</scope>
+            <version>1.27.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/DiscordSRV.jar</systemPath>
         </dependency>
     </dependencies>
 
