@@ -2,11 +2,12 @@ package cz.link.gui;
 
 import cz.link.LinkPlugin;
 import cz.link.model.PlayerData;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.ProfileProperty;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -93,14 +94,14 @@ public class LinkGUI implements InventoryHolder {
                 }
             } catch (Exception ignored) {}
         }
-        // Podpora pro Base64 hlavy (formát: basehead-<base64kod>)
+        // Podpora pro Base64 hlavy
         else if (materialStr.toLowerCase().startsWith("basehead-")) {
             String base64 = materialStr.substring(9);
             item = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
             if (skullMeta != null) {
                 try {
-                    com.destroystokyo.paper.profile.PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+                    PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
                     profile.getProperties().add(new ProfileProperty("textures", base64));
                     skullMeta.setPlayerProfile(profile);
                     item.setItemMeta(skullMeta);
