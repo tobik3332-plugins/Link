@@ -3,6 +3,7 @@ package cz.link.gui;
 import cz.link.LinkPlugin;
 import cz.link.model.PlayerData;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LinkGUI implements InventoryHolder {
 
@@ -28,7 +30,8 @@ public class LinkGUI implements InventoryHolder {
         int size = plugin.getConfigManager().getConfig().getInt("settings.gui-size", 27);
         Component title = plugin.getConfigManager().colorize(
                 plugin.getConfigManager().getConfig().getString("gui.title", "&8Propojení účtů")
-        );
+        ).decoration(TextDecoration.ITALIC, false);
+
         this.inventory = Bukkit.createInventory(this, size, title);
         setupItems();
     }
@@ -61,10 +64,23 @@ public class LinkGUI implements InventoryHolder {
         ConfigurationSection sec = plugin.getConfigManager().getConfig().getConfigurationSection(path);
         if (sec == null) return new ItemStack(Material.BARRIER);
 
-        Material mat = Material.matchMaterial(sec.getString("material", "STONE"));
-        if (mat == null) mat = Material.STONE;
+        String materialStr = sec.getString("material", "STONE");
+        ItemStack item;
 
-        ItemStack item = new ItemStack(mat);
+        // Podpora pro Nexo itemy (formát: nexo-nazevitemu)
+        if (materialStr.toLowerCase().startsWith("nexo-")) {
+            String nexoId = materialStr.substring(5);
+            if (Bukkit.getPluginManager().isPluginEnabled("Nexo")) {
+                ItemStack nexoItem = com.nexomc.nexo.api.NexoItems.itemFromId(nexoId);
+                item = (nexoItem != null) ? nexoItem.clone() : new ItemStack(Material.STONE);
+            } else {
+                item = new ItemStack(Material.STONE);
+            }
+        } else {
+            Material mat = Material.matchMaterial(materialStr);
+            item = new ItemStack(mat != null ? mat : Material.STONE);
+        }
+
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             String name = sec.getString("name", "");
@@ -78,8 +94,15 @@ public class LinkGUI implements InventoryHolder {
                 processedLore.add(line);
             }
 
-            meta.displayName(plugin.getConfigManager().colorize(name));
-            meta.lore(plugin.getConfigManager().colorizeList(processedLore));
+            Component displayName = plugin.getConfigManager().colorize(name)
+                    .decoration(TextDecoration.ITALIC, false);
+            meta.displayName(displayName);
+
+            List<Component> loreComponents = plugin.getConfigManager().colorizeList(processedLore).stream()
+                    .map(line -> line.decoration(TextDecoration.ITALIC, false))
+                    .collect(Collectors.toList());
+            meta.lore(loreComponents);
+
             item.setItemMeta(meta);
         }
         return item;
