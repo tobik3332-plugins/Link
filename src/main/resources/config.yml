@@ -4,8 +4,8 @@ settings:
   discord-slot: 15
 
 gui:
-  title: "&8Propojení účtů"
-  admin-title-prefix: "&8Admin: &e"
+  title: "&fPropojení účtů"
+  admin-title-prefix: "&fAdmin: &e"
   
   email:
     unlinked:
@@ -18,7 +18,7 @@ gui:
         - "&eLevé pro nastavení emailu"
     linked:
       material: "MAP"
-      name: "&aEmail Linked"
+      name: "&a&lEmail Linked"
       lore:
         - "&7Status: &aPropojeno"
         - "&7Email: &f{email}"
@@ -38,7 +38,7 @@ gui:
         - "&eShift + Levé pro nastavení emailu"
     linked:
       material: "MAP"
-      name: "&aEmail Linked"
+      name: "&a&lEmail Linked"
       lore:
         - "&7Status: &aPropojeno"
         - "&7Email: &f{email}"
@@ -50,7 +50,7 @@ gui:
 
   discord:
     unlinked:
-      material: "PLAYER_HEAD"
+      material: "basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyMjA5OGFlNzljN2FiZjAwMmZlOTY4NGM3NzNlYTcxZGI4OTE5YmIyZWYyMDUzZWEwYzA2ODRjNWExY2U0ZiJ9fX0="
       name: "&eLink Discord"
       lore:
         - "&7Status: &cNepropojeno"
@@ -58,8 +58,8 @@ gui:
         - ""
         - "&eKlikni pro propojení Discordu"
     linked:
-      material: "PLAYER_HEAD"
-      name: "&aDiscord Linked"
+      material: "basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyMjA5OGFlNzljN2FiZjAwMmZlOTY4NGM3NzNlYTcxZGI4OTE5YmIyZWYyMDUzZWEwYzA2ODRjNWExY2U0ZiJ9fX0="
+      name: "&a&lDiscord Linked"
       lore:
         - "&7Status: &aPropojeno"
         - "&7Účet: &f{account}"
@@ -70,7 +70,7 @@ gui:
 
   admin-discord:
     unlinked:
-      material: "PLAYER_HEAD"
+      material: "basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyMjA5OGFlNzljN2FiZjAwMmZlOTY4NGM3NzNlYTcxZGI4OTE5YmIyZWYyMDUzZWEwYzA2ODRjNWExY2U0ZiJ9fX0="
       name: "&eLink Discord"
       lore:
         - "&7Status: &cNepropojeno"
@@ -78,8 +78,8 @@ gui:
         - ""
         - "&cÚčet není propojen"
     linked:
-      material: "PLAYER_HEAD"
-      name: "&aDiscord Linked"
+      material: "basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyMjA5OGFlNzljN2FiZjAwMmZlOTY4NGM3NzNlYTcxZGI4OTE5YmIyZWYyMDUzZWEwYzA2ODRjNWExY2U0ZiJ9fX0="
+      name: "&a&lDiscord Linked"
       lore:
         - "&7Status: &aPropojeno"
         - "&7Účet: &f{account}"
@@ -89,20 +89,20 @@ gui:
         - "&cShift + Pravé pro unlink"
 
 messages:
-  prefix: "&8[&cLink&8] &7"
+  prefix: "&8[&cLink&8] &7" #<dark_gray>[<red>Link<dark_gray>] <gray>
   reload: "Konfigurace byla úspěšně reloadována!"
   no-permission: "&cNemáš dostatečná oprávnění."
-  email-prompt: "&eNapiš svůj email do chatu. Napiš &ccancel &epro zrušení."
+  email-prompt: "&7Napiš svůj email do chatu, nebo napiš &ccancel &7pro zrušení."
   email-cancelled: "&cNastavení emailu bylo zrušeno."
-  email-saved: "&aEmail &f{email} &asuccessfully nastaven!"
-  email-invalid: "&cNezadal jsi platný formát emailu. Zkus to znovu nebo napiš cancel."
-  email-copied: "&aEmail &f{email} &aje zkopírován do schránky. &7(Klikni zde pro kopii)"
-  discord-copied: "&aDiscord účet &f{account} &aje zkopírován do schránky. &7(Klikni zde pro kopii)"
-  admin-email-prompt: "&eNapiš email pro hráče &f{player} &edo chatu. Napiš &ccancel &epro zrušení."
-  admin-email-cancelled: "&cNastavení emailu administrátorem bylo zrušeno."
-  unlink-prompt: "&eNapište příkaz ještě jednou do 5 sekund pro potvrzení odpojení."
-  unlink-success: "&aPlatforma &f{platform} &ablo úspěšně odpojena."
+  email-saved: "&7Email &f{email} &anastaven!"
+  email-invalid: "&7Nezadal jsi platný formát emailu. Zkus to znovu nebo napiš cancel."
+  email-copied: "&7Kopírování &fEmailu: {email} &7(Klikni zde pro zkopírování)"
+  discord-copied: "&7Kopírování &fDiscordu: {account} &7(Klikni zde pro zkopírování)"
+  admin-email-prompt: "&7Napiš email pro hráče &f{player} &7do chatu, nebo napiš &ccancel &7pro zrušení."
+  admin-email-cancelled: "&cNastavení emailu bylo adminem zrušeno ."
+  unlink-prompt: "&7Napište příkaz ještě jednou do &f5 sekund&7 pro potvrzení odpojení."
+  unlink-success: "&f{platform} &7byl odpojen."
   unlink-expired: "&cČasový limit pro odpojení vypršel."
-  admin-unlinked-target: "&cVáš účet ({platform}) byl odpojen administrátorem."
-  player-not-found: "&cHráč nebyl nalezen."
-  usage-alink: "&cPoužití: /alink reload nebo /alink check <hráč> nebo /alink set email <hráč> <email>"
+  admin-unlinked-target: "&cVáš ({platform}) byl odpojen administrátorem."
+  player-not-found: "&7Hráč nebyl nalezen."
+  usage-alink: "&7Použití: /alink reload nebo /alink check (hráč) nebo /alink set email (hráč) (email)"
