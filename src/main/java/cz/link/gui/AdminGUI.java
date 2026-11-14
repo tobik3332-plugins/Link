@@ -2,17 +2,20 @@ package cz.link.gui;
 
 import cz.link.LinkPlugin;
 import cz.link.model.PlayerData;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.ProfileProperty;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -54,7 +57,7 @@ public class AdminGUI implements InventoryHolder {
             inventory.setItem(emailSlot, createItem("gui.admin-email.unlinked"));
         }
 
-        // Admin discord item (používá sekci gui.admin-discord)
+        // Admin discord item
         if (data.hasDiscord()) {
             inventory.setItem(discordSlot, createItem("gui.admin-discord.linked",
                     "{account}", data.getDiscordAccount(),
@@ -71,6 +74,7 @@ public class AdminGUI implements InventoryHolder {
         String materialStr = sec.getString("material", "STONE");
         ItemStack item = null;
 
+        // Podpora pro Nexo itemy
         if (materialStr.toLowerCase().startsWith("nexo-")) {
             String nexoId = materialStr.substring(5);
             try {
@@ -91,6 +95,20 @@ public class AdminGUI implements InventoryHolder {
                     }
                 }
             } catch (Exception ignored) {}
+        }
+        // Podpora pro Base64 hlavy
+        else if (materialStr.toLowerCase().startsWith("basehead-")) {
+            String base64 = materialStr.substring(9);
+            item = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+            if (skullMeta != null) {
+                try {
+                    PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+                    profile.getProperties().add(new ProfileProperty("textures", base64));
+                    skullMeta.setPlayerProfile(profile);
+                    item.setItemMeta(skullMeta);
+                } catch (Exception ignored) {}
+            }
         }
 
         if (item == null) {
