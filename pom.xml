@@ -22,10 +22,10 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-        <!-- DiscordSRV Repository -->
+        <!-- JitPack Repository pro DiscordSRV -->
         <repository>
-            <id>scarsz-repo</id>
-            <url>https://nexus.scarsz.me/content/groups/public/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -37,11 +37,11 @@
             <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- DiscordSRV API -->
+        <!-- DiscordSRV API přes JitPack -->
         <dependency>
-            <groupId>com.github.discordscrv</groupId>
+            <groupId>com.github.DiscordSRV</groupId>
             <artifactId>DiscordSRV</artifactId>
-            <version>1.27.0</version>
+            <version>v1.27.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
